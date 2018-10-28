@@ -7,9 +7,17 @@
 #ifndef MATRIX_H_
 #define MATRIX_H_
 
+/*
+ * _matr_2f_
+ * 
+ * Data structure representing a 2d float matrix.
+ * Matrix data is stored as a float pointer to float pointers rather than a single float pointer.
+ * This implementation occupies slightly more memory as it involves more dynamic allocations.
+ * Access times are, however, faster as integer division is not performed when indexing into the matrix.
+ */
 typedef struct {
-    unsigned _row_ct, _col_ct;
-    float * *_data;
+    unsigned _row_ct, _col_ct;// matrix dimensions
+    float * *_data;// matrix data
 }_matr_2f_;
 
 /*
