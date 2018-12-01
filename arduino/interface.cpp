@@ -3,18 +3,21 @@
 #include <SPI.h>
 #include <math.h>
 #include <LedControl.h>
-#define DISPLAY_OUT 11
-#define SCK 13
 
 const int MAX_ANALOG = 1023;
 
 int getDegrees(int potVal) {
+    // Conversion function from potentiometer value to degrees
    return int(360*float(potVal/MAX_ANALOG));
 }
 
 void setDisplay(int roll, int pitch, int yaw) {
-    pinMode(DISPLAY_OUT, OUTPUT);
-    //LedControl segmentDisplay = LedControl(, SCK, , 3); <-- Not sure about DIN and LOAD pins
+    // Function that sets the seven segment displays
+    // to a given roll, pitch, and yaw value.
+    pinMode(DIN, INPUT);
+    pinMode(CS, INPUT);
+    pinMode(DOUT, OUTPUT);
+    LedControl segmentDisplay = LedControl(DIN, SCK, CS, 3); //<-- Not sure about DIN and LOAD pins
     segmentDisplay.shutdown(0, false); // Turn on displays
     segmentDisplay.shutdown(1, false); //  --------------
     segmentDisplay.shutdown(2, false); //  --------------
@@ -36,8 +39,9 @@ void setDisplay(int roll, int pitch, int yaw) {
 
 }
 
-int parseValue(int value, int factor) {
-    int digit, place = factor;
+int parseValue(int value, int place) {
+    // Helper function to get a digit at an index of a number
+    int digit;
     do {
         digit = value%10;
         value /= 10;
